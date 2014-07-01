@@ -1,0 +1,123 @@
+\documentclass[12pt, a4paper]{article}%{{{
+\usepackage{tipa}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{amssymb}
+\usepackage{latexsym, lineno, caption2, indentfirst}
+\usepackage[super,square,comma,numbers,sort&compress]{natbib}
+\usepackage{hyperref}
+\usepackage{graphicx,color,overpic,subfigure}
+\usepackage[rflt]{floatflt}
+\usepackage{multirow}
+\usepackage{endfloat} %[nomarkers]
+%%% ------------------------------
+\setlength{\topmargin}{-1cm} \setlength{\oddsidemargin}{0mm}
+\textwidth 16cm \textheight 24cm \parskip=6pt
+\newcommand{\newsection}[1]{\section {#1} \setcounter{equation}{0}}
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+\renewcommand{\baselinestretch}{1.5}
+\renewcommand{\textfraction}{0.3}
+%%% ------------------------------
+\citestyle{nature}
+\begin{document}
+\newcommand{\lr}[1]{\langle #1 \rangle}
+\newcommand{\llr}[1]{\langle \hspace{-2.5pt} \langle #1 \rangle \hspace{-2.5pt} \rangle}
+%%% &=& &=& &=& &=& &=& &=& &=& &=& %%% &=& &=& &=& &=& &=& &=& &=& &=& %%% &=& &=& &=& &=%}}}
+
+\title{......}%{{{
+\author{
+Zhenzhen Liu$^{1}$\footnote{\emph{E-mail address}: zhzhenliu@gmail.com (Z. Liu).},
+Mogei Wang$^{2}$\footnote{Corresponding author. \emph{E-mail address}: mogeiwang@gmail.com (M. Wang).}.
+\\{\scriptsize{1. School of Information and Communication Engineering, Dalian Nationalities University, 116600, P.R.
+China}}
+\vspace{-3mm} \\{\scriptsize{2. Independent researcher.}} } \date{} \maketitle \vspace{-10mm}
+
+\begin{abstract}
+...
+\\[5pt]PACS number(s): 89.75.-k, 87.23.Ge.
+\\[5pt]{\bf Keywords:} Agent-based modeling, ...
+\end{abstract}%}}}
+
+\section{Introduction}%{{{
+
+There is a long history of research on the ... theory~\citep{Boccaletti2006, Liu2010}.
+
+In this work, it is denoted as $\tau$.
+
+%}}}
+
+\section{Model}%{{{
+
+There are $N$ ... which ... $M$ kinds of ...
+
+The position and motion direction of the individual $i$ at time $t$ are denoted
+as $\textbf{x}_i(t)$ and $\theta_i(t)$. The individual $i$ moves according to the following equation:
+\begin{equation} \label{Eq:...}%{{{
+\left\{
+\begin{array}{l@{\quad \quad}l}
+\textbf{x}_i(t+\Delta t)=\textbf{x}_i(t)+\textbf{v}_i(t)\Delta t \\
+\theta_i(t+\Delta t)=\xi_i
+\end{array}
+\right., \nonumber
+\end{equation} %}}}
+where $\textbf{v}_i(t)= (v\cos\theta_i(t),v\sin\theta_i(t))$ is the velocity of the individual, and $v$ is the modulus
+of the individual motion velocity and is the same for all individuals. $\xi_i$ follows the uniform distribution in
+$[-\pi,\pi]$. $\Delta t$ is the update interval and is set to 1. For individuals $i$ and $j$, if
+$\left|\textbf{x}_i-\textbf{x}_j\right|\le r_0$ where $r_0$ is the interaction radius, then $i$ and $j$ are neighbors
+and can infect each other.
+
+For the individual $i$, if it is currently ...
+
+%}}}
+
+\subsection{...} \label{Sect:...}%{{{
+.........
+
+\begin{figure}[htbp]\centering
+\subfigure[$\rho_1$ vs $\tau$]{\label{Fig_taua}
+\begin{minipage}[h]{0.4\textwidth}
+\begin{overpic}[scale=0.7]{....eps}
+\end{overpic}
+\end{minipage} }
+\hspace{0.5cm}
+\subfigure[$\rho_2$ vs $\tau$]{\label{Fig_taub}
+\begin{minipage}[h]{0.4\textwidth}
+\begin{overpic}[scale=0.7]{....eps}
+\end{overpic}
+\end{minipage} }
+\hspace{0.5cm}
+\subfigure[$\chi_1$ vs $\tau$]{\label{Fig_tauc}
+\begin{minipage}[h]{0.4\textwidth}
+\begin{overpic}[scale=0.7]{....eps}
+\end{overpic}
+\end{minipage} }
+\hspace{0.5cm}
+\subfigure[$\chi_2$ vs $\tau$]{\label{Fig_taud}
+\begin{minipage}[h]{0.4\textwidth}
+\begin{overpic}[scale=0.7]{....eps}
+\end{overpic}
+\end{minipage} }
+\vspace{-2mm}
+\caption{\label{Fig_rho_chi_tau} ...}
+\end{figure}
+%}}}
+
+\subsection{...} \label{Sect:...}%{{{
+.........
+%}}}
+
+\section{...}%{{{
+Simulation results and data obtained are analyzed in this section.%}}}
+
+\section{Conclusions}%{{{
+...%}}}
+
+\begin{thebibliography}{99}\scriptsize%{{{
+\bibitem{Boccaletti2006}
+S. Boccaletti, V. Latora, Y. Moreno, M. Chavez, D.-U. Hwang, Phys. Rep. 424, 175 (2006).
+
+\bibitem{Liu2010}
+Z. Liu, X. Wang, M. Wang, Chaos 20, 023128 (2010).
+\end{thebibliography}
+\end{document}%}}}
