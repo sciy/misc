@@ -1,3 +1,6 @@
+# matplotlib.org/users/screenshots.html 
+# https://github.com/olgabot/prettyplotlib/tree/master/tests
+
 figure()
 subplot(2,1,1)
 plot(...) #plot loglog semilogx; hist; semilogy; scatter ...
