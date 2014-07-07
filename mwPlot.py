@@ -1,6 +1,6 @@
 figure()
 subplot(2,1,1)
-plot(...) #plot loglog semilogx
+plot(...) #plot loglog semilogx; hist; semilogy; scatter ...
 legend([..., ...], ['...', '...'])
 xlim(0, ...)# set axis limits
 ylim(0, ...)
