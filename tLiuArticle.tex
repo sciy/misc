@@ -1,0 +1,151 @@
+\documentclass[11pt]{article}
+\usepackage{amsfonts,amssymb,latexsym,lineno,color,graphicx}
+\usepackage[square,comma,compress]{natbib}
+\usepackage{indentfirst}
+\usepackage{caption2} %定义及修改caption格式的包
+\usepackage{CJK} %支持汉子的CJK包
+
+\setlength{\topmargin}{ -1cm} \setlength{\oddsidemargin}{0cm}
+\textwidth 16cm \textheight 23cm % (for dvi)
+\parskip=7pt
+
+\newcommand{\newsection}[1]{\section{#1} \setcounter{equation}{0}}
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+\renewcommand{\baselinestretch}{1.6}
+
+
+\begin{document}
+\begin{CJK*}{GBK}{song}
+
+\newcommand{\lr}[1]{\langle #1 \rangle}
+\newcommand{\llr}[1]{\langle\hspace{-2.5pt}\langle #1
+\rangle\hspace{-2.5pt}\rangle}
+
+\title{Prediction of } %文章题目
+\author{
+ Taigang Liu$^{a, b}$,
+ Jun Wang$^{c, }$\footnote {Corresponding author. Fax: +86 411 8470
+ 6100.   \emph{E-mail address:} junwang@dlut.edu.cn (J. Wang). }
+\\
+{\scriptsize $^a\!$ Department of Applied Mathematics, Dalian
+University of Technology, Dalian 116024, China} \\
+{\scriptsize $^b\!$ College of Advanced Science and Technology,
+ Dalian University of Technology, Dalian 116024, China}\\
+{\scriptsize $^c\!$ Department of Mathematics, Shanghai Normal
+University, Shanghai 200034, China} }
+
+%\date{}  %是否显示时间
+\maketitle \vspace{4mm}
+
+\newpage %添加新的一页
+
+\begin{abstract}  %摘要部分
+Knowledge of structural class plays an important role in
+understanding protein folding patterns.
+\\[5pt]
+{\bf Keywords:} Protein structural class; Symbol sequence complexity
+\end{abstract}
+
+\section*{Introduction}     % *号表示不显示编号
+According to the definition by Levitt and Chothia \cite{Levitt1976},
+a protein of known structure usually can be classified into one of
+the following four structural classes: all-$\alpha$, all-$\beta$,
+$\alpha$/$\beta$ and $\alpha$+$\beta$. The structural class is an
+important attribute widely used to characterize the overall folding
+type of a protein or its domain \citep{Chou2005}. With the ever
+increasing sequence data, there is a great need to develop reliable
+and effective computational methods to predict protein structural
+class solely from its primary sequence. During the past three
+decades, many different algorithms and efforts have been made to
+address this problem \citep{Klein1986,Zhou1998}.
+
+
+\section*{Materials and Methods}
+\subsection*{\emph{Datasets}}   %\emph 斜体
+
+
+\subsection*{\emph{Distance measure based on the LZ decomposition of symbol sequences}}
+
+
+
+\subsection*{\emph{Performance measures}}
+Explicitly, they are defined by the following formulas:
+\[\mbox{Sens}_j=\frac{TP_j}{TP_j+FN_j}=\frac{TP_j}{|C_j|},\]
+\[\mbox{Spec}_j=\frac{TN_j}{TN_j+FP_j}=\frac{TN_j}{\sum_{k\neq j} |C_k|},\]
+\[\mbox{Prec}_j=\frac{TP_j}{TP_j+FP_j},\]
+\[\mbox{FPR}_j=\frac{FP_j}{TN_j+FP_j}=\frac{FP_j}{\sum_{k\neq j} |C_k|},\]
+\[\mbox{MCC}_j=\frac{TP_jTN_j-FP_jFN_j}{\sqrt{(TP_j+FP_j)(TP_j+FN_j)(TN_j+FP_j)(TN_j+FN_j)}},\]
+\[\mbox{Overall accuracy}=\frac{\sum_j TP_j}{\sum_j |C_j|},\]
+where $TP_j$, $TN_j$, $FP_j$, $FN_j$, and $|C_j|$ are the number of
+true positives, true negatives, false positives, false negatives,
+and proteins in the structural class $C_j$, respectively.
+
+\section*{Results}
+
+\subsection*{\emph{Comparison with other methods}}
+
+
+\section*{Conclusion and Discussion}
+
+
+\section*{Acknowledgements} This work was supported in part by
+the National Natural Science Foundation of China.
+
+\begin{thebibliography}{99}
+\scriptsize
+
+\bibitem{Levitt1976}
+M. Levitt, C. Chothia, Structural patterns in globular proteins,
+Nature 261 (1976) 552-558.
+
+\bibitem{Chou2005}
+K.C. Chou, Progress in protein structural class prediction and its
+impact to bioinformatics and proteomics, Curr. Protein Pept. Sci. 6
+(2005) 423-436.
+
+\bibitem{Klein1986}
+P. Klein, C. Delisi, Prediction of protein structural class from the
+amino acid sequence, Biopolymers 25 (1986) 1659-1672.
+
+\bibitem{Zhou1998}
+G.P. Zhou, An intriguing controversy over protein structural class
+prediction, J. Protein Chem. 17 (1998) 729-738.
+
+
+
+
+\end{thebibliography}
+
+
+\newpage
+
+\begin{table}[h]
+\scriptsize \tabcolsep=15pt \renewcommand{\arraystretch}{1.2}
+\renewcommand{\captionlabeldelim}{}
+\captionstyle{flushleft} \onelinecaptionsfalse
+\caption{\protect\\Comparison of different methods by the jackknife
+test for the Z277 and Z498 datasets}\label{tab3}
+\begin{tabular}{@{}lllllll@{}}
+  \hline
+  Dataset & Method & \multicolumn{4}{c}{Recall for each class (\%)} & Overall accuracy (\%) \\
+  \cline{3-6} & & All-$\alpha$ & All-$\beta$ & $\alpha$/$\beta$ & $\alpha$+$\beta$ \\
+  \hline
+  Z277 & Componet coupled &84.3&82.0&81.5&67.7&79.1\\
+  & Neural network &68.6&85.2&86.4&56.9&74.7\\
+  & SVM &74.3&82.0&87.7&72.3&79.4\\
+  & Rough sets &77.1&77.0&93.8&66.2&79.4\\
+  & LogitBoost &81.4&88.5&92.6&72.3&84.1\\
+  & Our method &91.4&83.6&93.8&69.2&85.2\\
+  \\
+  Z498 & Componet coupled &93.5&88.9&90.4&84.5&89.2\\
+  & Neural network &86.0&96.0&88.2&86.0&89.2\\
+  & SVM &88.8&95.2&96.3&91.5&93.2\\
+  & Rough sets &87.9&91.3&97.1&86.0&90.8\\
+  & LogitBoost &92.6&96.0&97.1&93.0&94.8\\
+  & Our method &96.3&93.7&95.6&89.9&93.8\\
+  \hline
+\end{tabular}
+\end{table}
+
+\end{CJK*}
+\end{document}
