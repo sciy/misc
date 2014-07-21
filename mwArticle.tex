@@ -111,51 +111,22 @@ For the individual $i$, if it is currently ...
 \section{...}%{{{
 Simulation results and data obtained are analyzed in this section.%}}}
 
-\begin{minipage}[c]{0.46\textwidth}
+\begin{table}[htop]
 \centering
-\subtable[Caption for table 1]{
-       \begin{tabular}{ccc}
-        1 & 2 & 3
-       \end{tabular}
-       \label{tab:firsttable}
-}
-\end{minipage}
-$\rightarrow$
-\begin{minipage}[c]{0.46\textwidth}
-\centering
-\subtable[Caption for table 2]{        
-       \begin{tabular}{ccc}
-       a & b & c
-       \end{tabular}
-       \label{tab:secondtable}
-}
-\end{minipage}
+\caption {ratio {...}} \label{tab:ratio}
+\begin{tabular}{c|c|c|c}
+% after \\: \ hline or \ cline {col1−col2} \cline{col3−col4 } ...
+\hline
+\backslashbox{\(H/L\)}{\(hd\)} & 0.75 & 1 & 1.25 \\\hline
+0.03 & 1.0698 & 1.0035 & 0.9878 \\
+0.04 & 2 & 3 & 4 \\
+0.05 & 2 & 3 & 4 \\
+0.067 & 2 & 3 & 4 \\
+0.09 & 2 & 3 & 4 \\
+\(\left(\dfrac{H}{L}\right) {max}\) & 2 & 3 & 4 \\\hline
+\end{tabular}
 \end{table}
 
-
-\begin{tabular}{ |p{3cm}||p{3cm}|p{3cm}|p{3cm}|  }
- \hline
- \multicolumn{4}{|c|}{Country List} \\
- \hline
- Country Name     or Area Name& ISO ALPHA 2 Code &ISO ALPHA 3 Code&ISO numeric Code\\
- \hline
- Afghanistan   & AF    &AFG&   004\\
- Aland Islands&   AX  & ALA   &248\\
- Albania &AL & ALB&  008\\
- Algeria    &DZ & DZA&  012\\
- American Samoa&   AS  & ASM&016\\
- Andorra& AD  & AND   &020\\
- Angola& AO  & AGO&024\\
- \hline
-\end{tabular}
-
-\begin{tabular}{|c|} \hline
-\diagbox{foo}{bar} \\\hline
-\end{tabular}
-\qquad
-\begin{tabular}{|c|} \hline
-\diagbox{foo}{baz}{bar} \\\hline
-\end{tabular}
 
 \section{Conclusions}%{{{
 ...%}}}
