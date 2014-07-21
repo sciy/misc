@@ -11,6 +11,7 @@
 \usepackage[rflt]{floatflt}
 \usepackage{multirow}
 \usepackage{endfloat} %[nomarkers]
+\usepackage{diagbox}
 %%% ------------------------------
 \setlength{\topmargin}{-1cm} \setlength{\oddsidemargin}{0mm}
 \textwidth 16cm \textheight 24cm \parskip=6pt
@@ -148,6 +149,13 @@ $\rightarrow$
  \hline
 \end{tabular}
 
+\begin{tabular}{|c|} \hline
+\diagbox{foo}{bar} \\\hline
+\end{tabular}
+\qquad
+\begin{tabular}{|c|} \hline
+\diagbox{foo}{baz}{bar} \\\hline
+\end{tabular}
 
 \section{Conclusions}%{{{
 ...%}}}
