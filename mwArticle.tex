@@ -4,17 +4,21 @@
 \usepackage{amsmath}
 \usepackage{mathrsfs}
 \usepackage{amssymb}
-\usepackage{latexsym, lineno, caption2, indentfirst}
+\usepackage{latexsym, lineno, indentfirst, caption2}
 \usepackage[super,square,comma,numbers,sort&compress]{natbib}
 \usepackage{hyperref}
-\usepackage{graphicx,color,overpic,subfigure}
+% \usepackage{subcaption}
+\usepackage{graphicx,color,overpic}
+\usepackage[loose]{subfigure}
 \usepackage[rflt]{floatflt}
 \usepackage{multirow}
-\usepackage{endfloat} %[nomarkers]
+\usepackage[nomarkers]{endfloat}
 \usepackage{diagbox}
+% \usepackage{supertabular}
+% \listfiles
 %%% ------------------------------
 \setlength{\topmargin}{-1cm} \setlength{\oddsidemargin}{0mm}
-\textwidth 16cm \textheight 24cm \parskip=6pt
+\textwidth 16cm \textheight 24cm \parskip=6pt \subfigcapmargin=6mm
 \newcommand{\newsection}[1]{\section {#1} \setcounter{equation}{0}}
 \renewcommand{\thefootnote}{\fnsymbol{footnote}}
 \renewcommand{\baselinestretch}{1.5}
