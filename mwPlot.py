@@ -2,7 +2,7 @@
 # https://github.com/olgabot/prettyplotlib/tree/master/tests
 
 figure()
-subplot(1,1,1)
+subplot(1,1,1) # subplot(3,1,1); subplot(3,1,2); subplot(3,1,3); for 3 subfigures (up and down).
 plot(...) #plot loglog semilogx; hist; semilogy; scatter ...
 legend([..., ...], ['...', '...'])
 xlim(0, ...)# set axis limits
