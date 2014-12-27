@@ -28,12 +28,12 @@
 \graphicspath{{figures/}}
 
 \makeatletter
-    \newcommand\fixeddistanceleft[2][1cm]{{\hb@xt@ #1{#2\hss}}}
-    \newcommand\fixeddistancecenter[2][1cm]{{\hb@xt@ #1{\hss#2\hss}}}
-    \newcommand\fixeddistanceright[2][1cm]{{\hb@xt@ #1{\hss#2}}}
-    \newcommand\fixedunderlineleft[2][1cm]{\underline{\hb@xt@ #1{#2\hss}}}
-    \newcommand\fixedunderlinecenter[2][1cm]{\underline{\hb@xt@ #1{\hss#2\hss}}}
-    \newcommand\fixedunderlineright[2][1cm]{\underline{\hb@xt@ #1{\hss#2}}}
+    \newcommand\fixeddistanceleft[2][1cm]{{\hb@xt@ #1{#2\hss} }}
+    \newcommand\fixeddistancecenter[2][1cm]{{\hb@xt@ #1{\hss#2\hss} }}
+    \newcommand\fixeddistanceright[2][1cm]{{\hb@xt@ #1{\hss#2} }}
+    \newcommand\fixedunderlineleft[2][1cm]{\underline{\hb@xt@ #1{#2\hss} }}
+    \newcommand\fixedunderlinecenter[2][1cm]{\underline{\hb@xt@ #1{\hss#2\hss} }}
+    \newcommand\fixedunderlineright[2][1cm]{\underline{\hb@xt@ #1{\hss#2} }}
 \makeatother
 
 \setbeamertemplate{theorems}[numbered]
@@ -65,30 +65,141 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
-\title{Template presentation - Szeged}
-\author{Grzegorz Knor}
-\institute[Mogei~Wang revised]{}
+\title{My research presentation}
+\author{Mogei Wang}
+\institute[M. Wang]{mogeiwang@gmail.com}
 % \date{} %!!!
-\date{12-12-2012}
+\date{Jan. 1, 2015}
 
 \begin{frame}
 \titlepage
 \end{frame}
-\section*{Outline}
+
+\section{Introduction}%{{{
 \begin{frame}
+\begin{figure}[htbp]\centering
+\begin{overpic}[scale=0.45]{turbulence.jpg}\end{overpic}
+\caption[turbulence]{\label{Fig:turbulence} Turbulence}
+\end{figure}
+%
+\begin{block}{The kernel of complex?} \small
+Heisenberg was asked what he would ask God, given the opportunity. His reply was: ``When I meet God, I am going to ask him two questions: Why relativity? And why turbulence? I really believe he will have an answer for the first."\footnote{\small http://en.wikipedia.org/wiki/Turbulence}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{itemize} %\begin{enumerate}
+    \item Coupled Map Lattice (Kuznetsov; {{turbulence}})
+    \item Game Of Life (Conway; {{Turing Machine}})
+    \item Cellular Automata (Wolfram; {{complex patterns}})
+    \item Boolean Net (Kauffman; {{life}})
+\end{itemize} %\end{enumerate}
+\begin{block}{the edge of chaos}%{Is that true?} \small
+Some cores keep producing new patterns and spreads them,\\
+the spreading processes produce new cores.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{My thinkings}
+\begin{itemize} %\begin{enumerate}
+    \item What are spreading?
+    \item How does the spreading process interplay with network topology?
+    \item What is the difference between the cores and the other areas?
+\end{itemize} %\end{enumerate}
+\end{block}
+\end{frame}
+
+\section*{Outline}
+\begin{frame}[shrink] %a smaller font
+\vspace{1cm}
 \tableofcontents
 \end{frame}
-\section{Sec. One}
-\subsection{Subsec One One}
-\begin{frame}
-Just a test frame.
+
+\section{1: Chaos synchronization} %{{{
+\begin{frame} \frametitle{Chaos synchronization}
+\begin{itemize} %\begin{enumerate}
+    \item Chaos refers to the behavior of dynamical systems that are highly sensitive to initial conditions.
+    \item Synchronization is the agreement or correlation of different dynamical processes in time.
+    \item Chaos synchronization is the synchronization of chaotic processes.
+\end{itemize} %\end{enumerate}
+\begin{block}{}
+    Unlike the synchronization between periodic systems (frequency-locking, phase-locking), chaos systems can be synchronized in various complex modes.
+\end{block}
 \end{frame}
-\subsection{Subsec One Two}
-\begin{frame}
-Another test frame.
+
+\subsection{Symbolic dynamic}
+\begin{frame} \frametitle{Symbolic dynamic}
 \end{frame}
+
+\subsection{Generalized synchronization}
+\begin{frame} \frametitle{Generalized synchronization}
+\begin{table}[htop]
+\centering
+\caption[GSync-Table]{Generalized synchronization} \label{tab:gsync}
+\begin{tabular}{c|c|c|c}
+\hline
+$i$ & $X_i^1$ & $Y_i^\infty$ & $Z_i^\infty$ \\
+\hline
+0 & 1 &             001001000011111$\ldots$ &             101101111110000$\ldots$ \\
+1 & 0 & \underline{11}0100100001111$\ldots$ & \underline{11}0110111111000$\ldots$ \\
+2 & 1 & \underline{001}010010000111$\ldots$ & \underline{001}011011111100$\ldots$ \\
+3 & 1 & \underline{1101}01001000011$\ldots$ & \underline{1101}01101111110$\ldots$ \\
+4 & 1 & \underline{11101}0100100001$\ldots$ & \underline{11101}0110111111$\ldots$ \\
+% 5 & 0 & \underline{111101}010010000$\ldots$ & \underline{111101}011011111$\ldots$ \\
+% 6 & 0 & \underline{0011101}01001000$\ldots$ & \underline{0011101}01101111$\ldots$ \\
+% 7 & 0 & \underline{00011101}0100100$\ldots$ & \underline{00011101}0110111$\ldots$ \\
+$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$\\
+\hline\end{tabular}\end{table}
+\begin{block}{}
+The outer information is transfered to and stored in the two response systems.
+\end{block}
+\end{frame}
+
+\section{2: Spreading}
+\begin{frame} \frametitle{Spreading}
+When $v>0$, the epidemic also spreads inhomogeneously in both modes, moreover, the epidemic spreading in mode 2 also is more inhomogeneous than in mode 1.
+\begin{block}{}
+Does the moving speed $v$ has any effects on the inhomogeneity?
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{figure}[!htbp]\centering
+\subfigure[Mode 1]{\label{Fig_va}
+\begin{overpic}[scale=0.45]{mode1-rho-v.eps}
+\put(-8,31){$\rho_1$}\put(50,-4){$v$}
+\end{overpic}}
+\hspace{0.5cm}
+\subfigure[Mode 2]{\label{Fig_vb}
+\begin{overpic}[scale=0.45]{mode2-rho-v.eps}
+\put(-8,31){$\rho_2$}\put(50,-4){$v$}
+\end{overpic}}
+% \caption{\label{fig:figrhov}Infected densities vs moving speed of individuals $v$}
+\end{figure}
+\begin{figure}[!htbp]\centering
+\subfigure[Mode 1]{\label{Fig_vc}
+\begin{overpic}[scale=0.45]{mode1-chi-v.eps}
+\put(-8,31){$\chi_1$}\put(50,-4){$v$}
+\end{overpic}}
+\hspace{0.5cm}
+\subfigure[Mode 2]{\label{Fig_vd}
+\begin{overpic}[scale=0.45]{mode2-chi-v.eps}
+\put(-8,31){$\chi_2$}\put(50,-4){$v$}
+\end{overpic}}
+% \caption{\label{fig:figchiv}CICSs vs moving speed of individuals $v$}
+\end{figure}
+\end{frame}
+
 \section{Summary}
 \begin{frame}
-Thank you for your attention!
+Thank you for your attention!\\
+Questions?
 \end{frame}
+
+\begin{frame}
+Thank you for your attention!\\
+Questions?
+\end{frame}
+
 \end{document}
