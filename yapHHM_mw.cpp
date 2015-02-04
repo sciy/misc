@@ -1,5 +1,6 @@
 // What is it? //// GSL (ODE), gnuplot, fileIO... ////////////////////////////////////////////////////////{{{
-// Yet Another Program solves the Hodgkin-Huxley Model (HHM) (yapHHM the initial version; ver 1.0),
+// yapHHM ver 1.0
+// Yet Another Program solves the Hodgkin-Huxley Model (HHM),
 //     which describes how action potentials are initiated and propagated.
 // HHM is a continuous time mathematical model includes a set of nonlinear differential equations (ODE):
 //     dydt[0] = 0; // y[0] is the input (injection current) I. No evolution. Written as an equation for convenience.
@@ -41,7 +42,7 @@ Gnuplot plotter;
 ifstream fin;
 ofstream fout;//}}}
 
-int func (double t, const double y[], double dydt[], void *params) // Defining functions for the derivatives of HHM //{{{
+int func (double t, const double y[], double dydt[], void *params)// Defining functions for the derivatives of HHM{{{
 {
     double C_m  = *(double *)(params+0*sizeof(double));
     double g_Na = *(double *)(params+1*sizeof(double));
@@ -59,7 +60,7 @@ int func (double t, const double y[], double dydt[], void *params) // Defining f
     return GSL_SUCCESS;
 }//}}}
 
-int jac (double t, const double y[], double *dfdy, double dfdt[], void *params)// the Jacobian matrix of HHM //{{{
+int jac (double t, const double y[], double *dfdy, double dfdt[], void *params)// the Jacobian matrix of HHM{{{
 {
     gsl_matrix_view dfdy_mat = gsl_matrix_view_array (dfdy, SystemDimension, SystemDimension);
     gsl_matrix * m = &dfdy_mat.matrix;
@@ -79,21 +80,21 @@ int jac (double t, const double y[], double *dfdy, double dfdt[], void *params)/
 int main (void)
 {
 
-    fout.open("HHM_MembraneVoltage.txt",ios::out); //|ios::binary);//{{{
+    fout.open("yapHHM_MembraneVoltage.txt",ios::out); //|ios::binary);{{{
     if (! fout.is_open() )
     {
         cout << "out file not opend!" << endl;
         return -1;
     }
 //
-//     fin.open ("HHM_InjectionCurrent.txt",ios::in); //|ios::binary);// NOT Used. Input is written as inner codes.
+//     fin.open ("yapHHM_InjectionCurrent.txt",ios::in); //|ios::binary);// NOT Used. Input is written as inner codes.
 //     if (! fin.is_open() )
 //     {
 //         cout << "in file not opend!" << endl;
 //         return -1;
 //     }//}}}
 
-// //  Notes for file IO://{{{
+// //  Notes for file IO:{{{
 // //     fout << y[0] << "; " << C_m << "; " << 12.345 << "; " << endl; // output to file.
 // //
 // //     string  s;
@@ -117,9 +118,9 @@ int main (void)
     cout << "#t  " << "input   " << "y[1]   " << "y[2]   " << "y[3]   " << "y[4]" << endl;
     fout << "#t  " << "input   " << "y[1]   " << "y[2]   " << "y[3]   " << "y[4]" << endl;
     cout << t << "  " << y[0] << "  " << y[1] << "  " << y[2] << "  " << y[3] << "  " << y[4] << endl;
-    fout << t << "  " << y[0] << "  " << y[1] << "  " << y[2] << "  " << y[3] << "  " << y[4] << endl; //}}}
+    fout << t << "  " << y[0] << "  " << y[1] << "  " << y[2] << "  " << y[3] << "  " << y[4] << endl;//}}}
 
-    for (int i = 1; i <= round(ts); i++)// i is the number of current time step {{{
+    for (int i = 1; i <= round(ts); i++)// i is the number of current time step{{{
     {
         y[0] = 0.0; // The input current sets here !!! vvv !!!
         if (i == 20) y[0] = 0.00; // an injection current is input...
@@ -140,34 +141,33 @@ int main (void)
         fout << t << "  " << y[0] << "  " << y[1] << "  " << y[2] << "  " << y[3] << "  " << y[4] << endl;
     }//}}}
 
-    plotter << "set terminal post enh" << endl;//enhanced PostScript{{{//{{{
-    plotter << "set output \"HHM_MembraneVoltage.eps\"" << endl;
+    plotter << "set terminal post enh" << endl;//enhanced PostScript{{{ {{{
+    plotter << "set output \"yapHHM_MembraneVoltage.eps\"" << endl;
     plotter << "set xrange [0:20]" << endl;
     plotter << "set xtics 0,5,100" << endl;
     plotter << "unset key" << endl;
     plotter << "set title \"Hodgkin-Huxley Model\"" << endl;
-    plotter << "set xlabel \"Time (mS)\"" << endl;
-//     plotter << "set xlabel \"Time ({/Symbol \\m}S)\"" << endl;//}}}
+    plotter << "set xlabel \"Time (mS)\"" << endl;//}}}
 
-    plotter << "set ylabel \"Input Current (mV)\"" << endl;//{{{
+    plotter << "set ylabel \"Input Current ({/Symbol \\m}A/cm^{2})\"" << endl;//{{{
     plotter << "set yrange [-0.5:0.5]" << endl;
     plotter << "set ytics -2,0.1,10" << endl;
-    plotter << "plot \"HHM_MembraneVoltage.txt\" using 1:2 with lp lc 1  lw 1  pt 1  ps 1 title \"I\"" << endl;
+    plotter << "plot \"yapHHM_MembraneVoltage.txt\" using 1:2 with lp lc 1  lw 1  pt 1  ps 1 title \"I\"" << endl;
 
     plotter << "set ylabel \"Membrane Voltage (mV)\"" << endl;
     plotter << "set yrange [-15:90]" << endl;
     plotter << "set ytics -20,5,100" << endl;
-    plotter << "plot \"HHM_MembraneVoltage.txt\" using 1:3 with lp lc 2  lw 1  pt 2  ps 1 title \"u\"" << endl;
+    plotter << "plot \"yapHHM_MembraneVoltage.txt\" using 1:3 with lp lc 2  lw 1  pt 2  ps 1 title \"u\"" << endl;
 
     plotter << "set key" << endl;
     plotter << "set ylabel \"Voltage of Na^{+} (m), K^{+} (m), and Leak (h) Channel (mV)\"" << endl;
     plotter << "set yrange [-0.3:1.2]" << endl;
     plotter << "set ytics -2,0.1,2" << endl;
-    plotter << "plot \"HHM_MembraneVoltage.txt\" u 1:4 w lp lc 4  lw 1  pt 4  ps 1 t \"m\", \"HHM_MembraneVoltage.txt\" u 1:5 w lp lc 6  lw 1  pt 6  ps 1 t \"n\", \"HHM_MembraneVoltage.txt\" u 1:6 w lp lc 8  lw 1  pt 8  ps 1 t \"h\"" << endl;//}}}
+    plotter << "plot \"yapHHM_MembraneVoltage.txt\" u 1:4 w lp lc 4  lw 1  pt 4  ps 1 t \"m\", \"yapHHM_MembraneVoltage.txt\" u 1:5 w lp lc 6  lw 1  pt 6  ps 1 t \"n\", \"yapHHM_MembraneVoltage.txt\" u 1:6 w lp lc 8  lw 1  pt 8  ps 1 t \"h\"" << endl;//}}}
 
-    plotter << "set output" << endl; //{{{
+    plotter << "set output" << endl;//{{{
     plotter << "set term wxt" << endl;
-    plotter << endl;//}}}//}}}
+    plotter << endl;//}}} }}}
 
 //     fin.close();//{{{
     fout.close();
