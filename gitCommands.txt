@@ -1,0 +1,15 @@
+git status
+git init
+git merge
+git branch
+git add * [alpha|beta|gamma]
+git commit -a [first|second|third]
+cd .git/
+gvim config
+git pull -a
+git checkout
+git push -u origin master [alpha|beta|gamma]
+
+[alpha:first]
+[beta:second]
+[gamma:third]
