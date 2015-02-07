@@ -127,7 +127,7 @@ int main(void)
     plotter << "set xtics 0,5," << t1 << endl;
     plotter << "unset key" << endl;
     plotter << "set title \"Hodgkin-Huxley Model\"" << endl;
-    plotter << "set xlabel \"Time (mS)\"" << endl;
+    plotter << "set xlabel \"Time (mS)\"" << endl;//}}}
 
     plotter << "set ylabel \"Input Current per unit area ({/Symbol \\m}A/cm^{2})\"" << endl;//{{{
     plotter << "set yrange [" << -2 << ":" << 12 << "]" << endl;
