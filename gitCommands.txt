@@ -13,3 +13,288 @@ git push -u origin master [alpha|beta|gamma]
 [alpha:first]
 [beta:second]
 [gamma:third]
+
+
+
+
+
+# -------------------------------------------
+# https://try.github.io/levels/1/challenges/1
+# -------------------------------------------
+
+
+
+Git基本命令学习 By Irving (zhouyongtao); at http://www.cnblogs.com/Irving/p/3711636.html
+
+it基本命令学习
+
+    Git是一个由林纳斯·托瓦兹为了更好地管理linux内核开发而创立的分布式版本控制／软件配置管理软件，如今已经超越CVS、SVN称为主流的版本控制器。许多著名的开源项目都用Git管理，比较火的托管服务如 github 。
+
+global config
+如果是第一次启用Git的话，需要先配置下用户名与邮箱，用来标识本地用户
+#设置用户名
+git config --global user.name "Irving"
+#设置Email
+git config --global user.email 'xxx@outlook.com'
+#设置颜色
+git config --global color.ui auto
+# 别名(Add some SVN-like aliases)
+git config --global alias.st status
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.up rebase
+git config --global alias.ci commit
+
+#查看所有配置
+git config -1
+#用户的git配置文件~/.gitconfig
+
+#初始化
+git init
+生成ssh-key
+#生成RSA并设置公钥 (添加到Github的public key)
+ssh-keygen -t rsa -C 'xxx@outlook.com'
+#测试是否成功
+ssh -T git@git.oschina.net
+ssh -T git@github.com
+
+    例：初始化一个新的版本库 然后将目录中的所有文件纳入管理，Git把这个过程称为stage，最后以快照的方式提交所有文件
+    git init
+    git add .
+    git commit -m 'initial commit'
+
+    #本地项目提交到远程(基本的工作流程)
+    touch README.md
+    git init
+    git add README.md (git add . 根目录所有文件)
+    git commit -m "initial commit"
+    git remote add origin https://github.com/zhouyongtao/my-node-learning.git
+    git push -u origin master
+    注意：如果是 git add .会添加所有文件，如果不想提交全部文件，需要设置.gitignore文件，如果远程的地址换了， git remote rm origin 移除重新添加即可.
+
+clone and push
+#克隆远程到本地
+git clone git@git.oschina.net:irving/Test.git
+cd Test
+ls -al
+#修改代码
+echo hello Test by Irving >README.md
+git status
+#目录下的所有文件全部提交到缓冲区
+git add.
+#代码提交到HEAD
+git commit -m 'hello Test by Irving'
+#推送到远程
+git push origin master
+
+git remote add origin git@git.oschina.net:irving/Test.git
+git push origin master
+#提交本地test分支作为远程master分支
+git push origin test:master
+#提交本地test分支作为远程的test分支
+git push origin test:test
+#删除远程的分支
+git push origin :test
+
+branch
+#查询当前branch
+git branch
+#显示全部branch,包括远程和本地
+git branch –a
+#只显示远程branch
+git branch –r
+#切换到branch
+git checkout branchName
+#创建一个新分支
+git branch newbranchname
+#删除分支
+git branch -D target_branch_name
+#合并某分支到当前分支
+git merge branchName
+#推送远程分支
+git push origin local_branch_name:remote_branch_name
+
+    例:创建分支与合并分支
+
+    #创建一个新的分支（new_branch)，将它检出（checkout）为活动分支，然后就可以编辑、载入和提交新的快照
+    git branch new_branch
+    git checkout new_branch
+    touch hello.txt
+    git add hello.txt
+    git commit -m 'add hello for new_branch'
+    #切换到master分支，恢复new_branch分支中刚刚做的更改，然后编辑一些文件，并将这些更改提交到master分支。
+    git checkout master
+    git add master.txt
+    git commit -a -m 'change files'
+    #合并（merge）new_branch分支到master分支，结合你的项目需要，可以删掉new_branch分支。
+    git merge new_branch
+    git branch -d new_branch
+
+remote
+#检出仓库
+git clone git://github.com/jquery/jquery.git
+增加一个远程仓库(名称为origin的远程服务器，以后提交代码的时候只需要使用 origin别名即可)
+git remote add origin git://github.com/someone/xxxx.git
+#查看远程仓库
+git remote -v
+#添加远程仓库
+git remote add [name] [url]
+#删除远程仓库
+git remote rm [name]
+#修改远程仓库
+git remote set-url –push [name] [newUrl]
+#拉取远程仓库
+git pull [remoteName] [localBranchName]
+#推送远程仓库
+git push [remoteName] [localBranchName]
+
+tag
+#查看版本
+git tag
+#创建版本
+git tag [name]
+#删除版本
+git tag -d [name]
+#查看远程版本
+git tag -r
+#创建远程版本(本地版本push到远程)
+git push origin [name]
+#删除远程版本
+git push origin :refs/tags/[name]
+#合并远程仓库的tag到本地
+git pull origin –tags
+#上传本地tag到远程仓库
+git push origin –tags
+#创建带注释的tag
+git tag -a [name] -m ‘message'
+
+gitignore
+.gitignore只适用于尚未添加到git库的文件,如果已经添加了,则需要git rm移除后再重新commit
+git rm -f xxx
+git commit
+git add .gitignore
+git commit
+git push
+
+#删除.idea目录下文件
+git rm .idea/* -r
+git rm hello
+#提交
+git commit -a -m  'delete hello file'
+git push -u origin master
+#增加忽略文件
+vim .gitignore
+#在文件中加入
+.idea/**/*
+更多: https://github.com/github/gitignore
+
+pull request
+先将托管在GitHub上的项目克隆（clone）到本地，做过更改之后推送回GitHub，然后发送一个pull请求，项目的维护者就会收到邮件通知。
+在GitHub上fork项目：
+git clone https://github.com/irving/request
+cd request
+git add (files)
+git commit -m 'Explain what I changed'
+git push origin master
+然后到GitHub上点击pull request按钮
+
+速查表
+启动&初始化
+Git的配置、版本库初始化（init）和克隆（clone）。
+git config [key] [value] 	配置版本库参数
+git config --global [key] [value] 	为用户设置全局属性
+git init 	将已经存在的一个目录初始化为Git版本库
+git clone [url] 	从一个URL地址克隆（clone）一个Git版本库
+git help [command] 	获取帮助
+
+暂存&快照
+使用Git的快照（snapshots）和暂存区（staging area）。
+git status 	显示下次提交的暂存区的状态和工作目录的更改
+git add [file] 	添加文件到暂存区
+git reset [file] 	重置暂存区的一个文件使之前的更改不被暂存
+git diff 	显示未暂存的更改（即比较暂存和未暂存的项）
+git diff --staged 	显示未提交的更改（即比较暂存区和版本库）
+git commit 	以一个新的快照提交暂存项
+git rm [file] 	从工作目录和暂存区移除文件
+git gui 	启动Git GUI图形界面
+
+分支&合并
+使用Git的分支（branch）和临时存放（stash）。
+git branch 	列出当前的所有分支，前边加*号的为当前活动分支
+git branch [branch-name] 	以当前的提交创建一个新的分支
+git checkout [branch] 	切换到另一个分支，并检出到当前工作目录
+git checkout -b [branch] 	创建一个新的分支并切换到该分支
+git merge [branch] 	进另一个分支合并到当前活动分支，并将此次合并记录为一次提交
+git log 	显示提交日志
+git stash 	临时存储当前未提交的更改
+git stash apply 	恢复最后一次的临时存储
+
+共享&更新
+抓取（fetch）、合并（merge），以及从另一个版本库获取更新。
+git remote add [alias] [url] 	为一个URL地址添加别名
+git fetch [alias] 	从远程版本库拉取所有分支
+git merge [alias]/[branch] 	合并一个分支到当前活动分支，是当前活动分支更新到最新版本
+git push [alias] [branch] 	推送本地分支到远程版本库，使远程版本库获得更新
+git pull 	从当前分支跟踪的远程分支中合并数据到本地
+
+检查&比较
+抓取（fetch）、合并（merge），以及从另一个版本库获取更新。
+git log 	显示当前分支的提交历史
+git log branchB..branchA 	显示branchA有而branchB没有的提交
+git log --follow [file] 	显示该文件的提交记录，包括重命名
+git diff branchB...branchA 	显示在branchA中而不在branchB中的不同
+git show [SHA] 	显示人可读格式的文件的
+gitx 	在GUI中显示提交记录
+
+
+Refer:
+
+ Git
+ Git: http://git-scm.com/
+ Git Extensions: http://code.google.com/p/gitextensions/
+
+ Book
+ Pro Git: http://git-scm.com/book
+ Try Git: https://try.github.io/levels/1/challenges/1
+ Tutorial: https://www.atlassian.com/git/tutorial
+
+ GUI
+ Smartgit：http://www.oschina.net/p/smartgit
+ SourceTree: http://www.sourcetreeapp.com
+ Git for Windows ：http://msysgit.github.io
+
+ GitHub Service
+ https://github.com/
+ http://git.oschina.net/
+ https://bitbucket.org/
+ https://www.heroku.com/
+ https://gitcafe.com/
+ https://code.jd.com/
+
+ OSChina Git 学习
+ http://git.oschina.net/oschina/git-osc/wikis/Home
+ 常用Git代码托管服务分享
+ http://kevinfan.blog.51cto.com/1037293/1306021
+ Eclipse上安装GIT插件EGit及使用
+ http://lwklwc.blog.51cto.com/8051822/1411684
+ http://mweb.baidu.com/p/git-101.html
+
+ Git系列文章(推荐)
+ http://rogerdudler.github.io/git-guide/index.zh.html
+ https://www.gitbook.io/book/lvwzhen/git-tutorial/
+ http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000
+ http://www.git-tower.com/learn/ebook/command-line/introduction
+
+ Git 命令一览图
+ http://www.git-tower.com/blog/git-cheat-sheet-detail/
+
+ 基础文章
+ http://rogerdudler.github.io/git-guide/index.zh.html
+ https://www.atlassian.com/git/tutorials/setting-up-a-repository/
+ Git教程
+ http://lvwzhen.github.io/Git-Tutorial/
+ 图解Git
+ http://marklodato.github.io/visual-git-guide/index-zh-cn.html
+ 练习
+ https://try.github.io/levels/1/challenges/1
+ http://pcottle.github.io/learnGitBranching/
