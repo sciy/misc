@@ -46,7 +46,7 @@ git config --global alias.up rebase
 git config --global alias.ci commit
 
 #查看所有配置
-git config -1
+git config -l
 #用户的git配置文件~/.gitconfig
 
 #初始化
