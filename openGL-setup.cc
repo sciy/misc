@@ -11,9 +11,8 @@
 //    sudo apt-get install build-essential libgl1-mesa-dev libglu1-mesa-dev mesa-common-dev freeglut3-dev
 //    gcc yourfile.cpp -lGL -lGLU -lglut -o appname
 
-// Program 1
-#include "GL/freeglut.h"
-#include "GL/gl.h"
+#include <GL/freeglut.h>
+// freeglut includes gl.h, glu.h, as well as the things glut.h includes.
 
 /* display function - code from:
      http://fly.cc.fer.hr/~unreal/theredbook/chapter01.html
