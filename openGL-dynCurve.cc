@@ -9,7 +9,9 @@
 #include <GL/freeglut.h> // freeglut.h for all
 using namespace std;
 
-float freq = 1, freqStep = 0.3, delta = 0, deltaStep = 0.3; // plot sin(freq*x+delta)
+float delta = 0, deltaStep = 0.3; // plot sin(freq*x+delta)
+float freq = 1, freqStep = 0.3;
+const string ParaNameList[] = {"delta", "freq"};
 int KeyboardState = 0; // state=0: change delta, 1 for freq
 
 void myDisplay(void)
@@ -34,41 +36,36 @@ void myKeyboard(unsigned char key,int x, int y)
         if (key == 'd' || key == 'D')
         {
             KeyboardState = 0;
-            cout << "switch to the delta change mode" << endl;
         }
         else if (key == 'f' || key == 'F')
         {
             KeyboardState = 1;
-            cout << "switch to the freq change mode" << endl;
         }
         else if (key == 27)
         {
-            cout << "user terminated" << endl;
+            cout << endl;
             exit(0);
         }
         else
         {
-            if (KeyboardState == 0 && key == '=')
+            if (KeyboardState == 0 && key == '+')
             {
                 delta += deltaStep;
-                cout << "increasing delta" << endl;
             }
             else if (KeyboardState == 0 && key == '-')
             {
                 delta -= deltaStep;
-                cout << "decreasing delta" << endl;
             }
-            else if (KeyboardState == 1 && key == '=')
+            else if (KeyboardState == 1 && key == '+')
             {
                 freq += freqStep;
-                cout << "increasing freq" << endl;
             }
             else if (KeyboardState == 1 && key == '-')
             {
                 freq -= freqStep;
-                cout << "decreasing freq" << endl;
             }
         }
+        cout << "[" << ParaNameList[KeyboardState] << "]" << key << "> " << ParaNameList[0] << ": " << delta << "; " << ParaNameList[1] << ": " << freq << endl; // ParaNameList[] = {"delta", "freq"}
 }
 
 int main(int argc, char ** argv)
