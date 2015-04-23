@@ -1,5 +1,5 @@
 // plot a moving sin curve controled by keyboard with OpenGL.
-// gcc x.cc -o x -lGL -lGLU -lglut
+// g++ x.cc -o x -lGL -lGLU -lglut
 // By M.W.
 
 #include <cstdlib>

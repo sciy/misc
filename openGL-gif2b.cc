@@ -1,5 +1,5 @@
 // By Yan Huang, M.W. revised
-// gcc openGL-gif2b.cpp -o oglgif2b -lGL -lGLU -lglut
+// g++ openGL-gif2b.cpp -o oglgif2b -lGL -lGLU -lglut
 
 #include <cstdlib>
 #include <cmath>

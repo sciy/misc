@@ -9,14 +9,14 @@
 //
 // You only need to install the glut header and lib files
 //    sudo apt-get install build-essential libgl1-mesa-dev libglu1-mesa-dev mesa-common-dev freeglut3-dev
-//    gcc yourfile.cpp -lGL -lGLU -lglut -o appname
+//    g++ yourfile.cpp -lGL -lGLU -lglut -o appname
 
 #include <GL/freeglut.h>
 // freeglut includes gl.h, glu.h, as well as the things glut.h includes.
 
 /* display function - code from:
      http://fly.cc.fer.hr/~unreal/theredbook/chapter01.html
-This is the actual usage of the OpenGL library. 
+This is the actual usage of the OpenGL library.
 The following code is the same for any platform */
 void renderFunction()
 {
@@ -34,7 +34,7 @@ void renderFunction()
 }
 
 /* Main method - main entry point of application
-the freeglut library does the window creation work for us, 
+the freeglut library does the window creation work for us,
 regardless of the platform. */
 int main(int argc, char** argv)
 {
@@ -44,6 +44,6 @@ int main(int argc, char** argv)
     glutInitWindowPosition(100,100);
     glutCreateWindow("OpenGL - First window demo");
     glutDisplayFunc(renderFunction);
-    glutMainLoop();    
+    glutMainLoop();
     return 0;
 }
