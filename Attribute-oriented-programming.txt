@@ -1,0 +1,90 @@
+Attribute-oriented programming (AOP) is a program-level marking technique.
+Programmers can mark program elements (e.g. classes and methods) to indicate that, 
+they maintain application-specific or domain-specific semantics. 
+For example, some programmers may define a "logging" attribute,
+and associate it with a method to indicate the method should implement a logging function, 
+while other programmers may define a "web service" attribute,
+and associate it with a class to indicate the class should be implemented as a web service. 
+Attributes separate application's core logic (or business logic) from application-specific,
+or domain-specific semantics (e.g. logging and web service functions). 
+
+By hiding the implementation details of those semantics from program code, 
+attributes increase the level of programming abstraction and reduce programming complexity, 
+resulting in simpler and more readable programs. 
+The program elements associated with attributes are transformed to more detailed programs by a supporting tool. 
+For example, a preprocessor may insert a logging program into the methods associated with a "logging" attribute.
+
+没理解上面这种范式是不是我想要的。
+我想要的似乎是这种范式：
+假设有两种神经元，IF和HH，
+两类神经元有一些不同的属性，
+但他们有人类理解相类似的动作，
+比如，打开离子通道，放电等等。
+于是，动作则可以在相同的函数中实现，
+属性用向量分别放置，并用结构封，
+以节省脑力和体力。
+
+假设IF共有30个，HH共有90个，
+IF有属性V，GE，GI，
+HH有属性V，Na，K，L。
+则理想的程序架构如下
+struct NEURON_IF {
+real V[30];
+real GE[30];
+real GI[30];
+} IF;
+
+struct NEURON_HH {
+real V[90];
+real Na[90];
+real K[90];
+real L[90];
+} HH;
+
+而定义函数
+real openChannel(s, i){//第i个IF或者HH类型的Neuron
+}
+
+real fire(s, i){
+}
+
+real run_step(s, i, input){
+    if (input) openChannel(s, i);
+    if (typeof(s)==NEURON_IF) // not available in c...
+    {IF run step;}
+    if (typeof(s)==NEURON_HH) {HH run step;}
+    if (v>v_th) {fire(s, i);}
+    writeFile(t, v, s, i);
+}
+...
+对于C这种类型规定非常强的语言，可以取消struct定义，
+取而代之，在函数入口加一个参数，专门传递类型。
+架构如下
+#define NEURON_IF 0
+#define NEURON_HH 1
+
+real IF_V[30];
+real IF_GE[30];
+real IF_GI[30];
+
+real HH_V[90];
+real HH_Na[90];
+real HH_K[90];
+real HH_L[90];
+
+real openChannel(type, i){
+}
+
+real fire(type, i){
+}
+
+real run_step(s, i, input){
+    if (input) openChannel(type);
+    if (type==NEURON_IF) // not available in c...
+    {IF run step;}
+    if (type==NEURON_HH) {HH run step;}
+    if (v>v_th) {fire(type, i);}
+    writeFile(t, v, type, i);
+}
+
+初步想法如此。以后慢慢修正。
