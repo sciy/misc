@@ -42,9 +42,9 @@
 #define fprint fprintf
 #define pprint fprintf
 #define DebugWrong(s)   {printf("\n[LINE %d] [FILe %s] [WRONG]: %s\n",__LINE__,__FILE__, s);}
-#define DebugWTF(s)   {printf("\n[LINE %d] [FILe %s] [W-T-F]: %s\n",__LINE__,__FILE__, s);}
+#define DebugW_T_F(s)   {printf("\n[LINE %d] [FILe %s] [W-T-F]: %s\n",__LINE__,__FILE__, s);}
 #define DebugError(s, t)  {printf("\n[LINE %d] [FILe %s] [ERROR]: %s\nreturning...\n",__LINE__,__FILE__, s); return t;}
-#define DetectZeroDenominator(divisor) {if(divisor==0) printf("\n[LINE %d] [FILe %s] [ERROR]: ATTEMPT TO DIVIDE BY ZERO!\n",__LINE__,__FILE__);}
+#define Debug0_Div(divisor) {if(divisor==0) printf("\n[LINE %d] [FILe %s] [ERROR]: ATTEMPT TO USE 0 AS DENOMINATOR!\n",__LINE__,__FILE__);}
 #define StartFromXOS  int main(int argc, char * argv[]){ if (!initialization(argc, argv)) ErrorReturn("program cannot be initializated!", false);
 #define EndWithHonor  return deconstruction(); }
 //}}}
