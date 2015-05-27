@@ -1,0 +1,8 @@
+gmp
+gmpfr
+gmpc
+gsl
+
+std libs
+math/tgmath
+freeglut/openglut
