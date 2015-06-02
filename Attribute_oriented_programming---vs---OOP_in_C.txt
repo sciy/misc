@@ -1,0 +1,690 @@
+Attribute-oriented programming (AOP) is a program-level marking technique.
+Programmers can mark program elements (e.g. classes and methods) to indicate that, 
+they maintain application-specific or domain-specific semantics. 
+For example, some programmers may define a "logging" attribute,
+and associate it with a method to indicate the method should implement a logging function, 
+while other programmers may define a "web service" attribute,
+and associate it with a class to indicate the class should be implemented as a web service. 
+Attributes separate application's core logic (or business logic) from application-specific,
+or domain-specific semantics (e.g. logging and web service functions). 
+
+By hiding the implementation details of those semantics from program code, 
+attributes increase the level of programming abstraction and reduce programming complexity, 
+resulting in simpler and more readable programs. 
+The program elements associated with attributes are transformed to more detailed programs by a supporting tool. 
+For example, a preprocessor may insert a logging program into the methods associated with a "logging" attribute.
+
+没理解上面这种范式是不是我想要的。
+我想要的似乎是这种范式：
+假设有两种神经元，IF和HH，
+两类神经元有一些不同的属性，
+但他们有人类理解相类似的动作，
+比如，打开离子通道，放电等等。
+于是，动作则可以在相同的函数中实现，
+属性用向量分别放置，并用结构封，
+以节省脑力和体力。
+
+假设IF共有30个，HH共有90个，
+IF有属性V，GE，GI，
+HH有属性V，Na，K，L。
+则理想的程序架构如下
+struct NEURON_IF {
+real V[30];
+real GE[30];
+real GI[30];
+} IF;
+
+struct NEURON_HH {
+real V[90];
+real Na[90];
+real K[90];
+real L[90];
+} HH;
+
+而定义函数
+real openChannel(s, i){//第i个IF或者HH类型的Neuron
+}
+
+real fire(s, i){
+}
+
+real run_step(s, i, input){
+    if (input) openChannel(s, i);
+    if (typeof(s)==NEURON_IF) // not available in c...
+    {IF run step;}
+    if (typeof(s)==NEURON_HH) {HH run step;}
+    if (v>v_th) {fire(s, i);}
+    writeFile(t, v, s, i);
+}
+---------------不好用。不如OOP符合思路 https://www.ibm.com/developerworks/cn/linux/l-cn-cobject/
+如何写出优美的 C 代码 --- 面向对象的 C
+面向对象的语言更接近人的思维方式，而且在很大程度上降低了代码的复杂性，同时提高了代码的可读性和可维护性，传统的 C 代码同样可以设计出比较易读，易维护，复杂度较低的优美代码，本文将通过一个实际的例子来说明这一点。
+邱 俊涛 (juntao.qiu@gmail.com), 软件工程师, Jinfonet
+2009 年 9 月 25 日
+
+基础知识
+结构体
+除了提供基本数据类型外，C 语言还提供给用户自己定制数据类型的能力，那就是结构体，在 C 语言中，你可以用结构体来表示任何实体。结构体正是面向对象语言中的类的概念的雏形，比如：
+typedef struct{ 
+    float x; 
+    float y; 
+ }Point;
+定义了一个平面坐标系中的一个点，点中有两个域，x 坐标和 y 坐标。
+结构体中的域称为结构体的成员。结构体中的数据类型可以是简单数据类型，也可以是其他的结构体，甚至结构体本身还可以嵌套，比如，一个标准的链表结构可以进行如下定义：
+ typedef struct node{ 
+    void *data;// 数据指针
+    int dataLength;// 数据长度
+    struct node *next;// 指向下一个节点
+ }Node;
+可以看到，结构体 node 中的 next 指针的类型又是 node 类型。
+函数指针
+指针是 C 语言的灵魂，是 C 比其他语言更灵活，更强大的地方。所以学习 C 语言必须很好的掌握指针。函数指针，即指向函数在内存映射中的首地址的指针，通过函数指针，可以将函数作为参数传递给另一个函数，并在适当的时候调用，从而实现异步通信等功能。
+比如， UNIX/Linux 系统中的信号注册函数，其原型如下：
+void (*signal(int signo,void (*func)(int))) (int)
+使用的时候，需要自己在外部定义一个信号处理函数 (signal handler), 然后使用 signal(sigNo, handler) 将处理程序注册在进程上，当信号发生时，进程就可以回调信号处理函数。
+将函数指针作为结构体的成员
+正如前面提到的，结构体的成员可以是简单的数据结构，也可以是其他的结构体，当然，也可以是指针。当将函数指针作为结构体的成员，并且这些函数只用来操作本结构体中的数据时，就可以形成一个独立的实体，这个实体中既有数据，也有对数据的操作，这样自然就可以引出类(class)的概念。
+
+面向对象语言的特性
+一般而言，继承，封装和多态被认为是面向对象语言所必须支持的三种特征，也正是通过这三种特征才可以体现出面向对象在哪些方面优于面向过程。由于语言开发商的宣传或其他的各种原因，使的表面上面向对象的思想要通过语言为载体而得以实现，然而实际上，面向对象是一种软件设计思想，完全是可以与具体实现无关的。
+虽然如此，但是不可否认，这些所谓的纯面向对象的语言，在其代码的可读性以及与人的自然思维的匹配方面，比面向过程的语言要好的多。
+语言层次的面向对象
+我们一般要描述一个对象，一般需要描述这个对象的一些属性，比如盒子(box) 是一个实体，它有 6 个面，有颜色，重量，是否为空等属性，并且可以放东西进去，可以取东西出来。在面向对象的语言中，通常将这样的对象抽象成一个类 (class):
+class Box{ 
+    clolr color; 
+    int weight; 
+    boolean empty; 
+    
+    put(something); 
+    something get(); 
+ }
+对盒子进行操作时，可以做一下动作：
+ Box.put(cake); 
+ Box.get();// 取到某个东西，从盒子中。
+而面向过程的语言中，通常是将实体传递给一个贯穿全局的函数来进行的，同样以 Box 为例，对 Box 进行操作时，往往是这样：
+ Put(Box, cake);// 将一个蛋糕放到盒子中
+ Get(Box);// 从盒子中取出某个东西来
+而显然，第一种代码形式更符合常理，所以面向对象的语言大都提供这种语言层面的细节的支持，使得代码的可读性，可理解性大大增加。 C 语言，作为一个灵活而简单的语言，我们完全可以通过 C 提供的简单机制，实现这样的比较优美的代码形式。
+
+C 语言的面向对象
+如前所说，面向对象是一种软件设计的思想，是语言无关的。在本节中，我举一个链表(list)的例子来说明如何在 C 语言中的设计出有面向对象风格的代码。
+定义接口
+接口是面向对象语言中的一个比较重要的概念，接口只对外部承诺实现该接口的实体可以完成什么样的功能，但是不暴露实现的方式。这样的好处是，实现者可以在不接触接口使用者的代码的情况下，对实现进行调整。
+我们来看看链表的接口定义：
+清单 1. 链表的接口定义
+#ifndef _ILIST_H 
+ #define 	 _ILIST_H 
+
+ // 定义链表中的节点结构
+ typedef struct node{ 
+    void *data; 
+    struct node *next; 
+ }Node; 
+
+ // 定义链表结构
+ typedef struct list{ 
+    struct list *_this; 
+    Node *head; 
+    int size; 
+    void (*insert)(void *node);// 函数指针
+    void (*drop)(void *node); 
+    void (*clear)(); 
+    int (*getSize)(); 
+    void* (*get)(int index); 
+    void (*print)(); 
+ }List; 
+
+ void insert(void *node); 
+ void drop(void *node); 
+ void clear(); 
+ int getSize(); 
+ void* get(int index); 
+ void print(); 
+
+ #endif 	 /* _ILIST_H */
+IList 接口中，可以清晰的看到，对于一个 list 实体 ( 也就是对象 ) 来说，可以在其上进行 insert, drop, clear, getSize, get(index) 以及 print 等操作。
+接口的实现
+清单 2. 构造方法
+ Node *node = NULL; 
+ List *list = NULL; 
+
+ void insert(void *node); 
+ void drop(void *node); 
+ void clear(); 
+ int getSize(); 
+ void print(); 
+ void* get(int index); 
+
+ List *ListConstruction(){ 
+    list = (List*)malloc(sizeof(List)); 
+    node = (Node*)malloc(sizeof(Node)); 
+    list->head = node; 
+    list->insert = insert;// 将 insert 函数实现注册在 list 实体上
+    list->drop = drop; 
+    list->clear = clear; 
+    list->size = 0; 
+    list->getSize = getSize; 
+    list->get = get; 
+    list->print = print; 
+    list->_this = list;// 用 _this 指针将 list 本身保存起来
+
+    return (List*)list; 
+ }
+需要注意的是此处的 _this 指针，_this 指针可以保证外部对 list 的操作映射到对 _this 的操作上，从而使得代码得到简化。
+清单 3. 插入及删除
+// 将一个 node 插入到一个 list 对象上
+ void insert(void *node){ 
+    Node *current = (Node*)malloc(sizeof(Node)); 
+    
+    current->data = node; 
+    current->next = list->_this->head->next; 
+    list->_this->head->next = current; 
+    (list->_this->size)++; 
+ } 
+
+ // 删除一个指定的节点 node 
+ void drop(void *node){ 
+    Node *t = list->_this->head; 
+    Node *d = NULL; 
+    int i = 0; 
+    for(i;i < list->_this->size;i++){ 
+        d = list->_this->head->next; 
+        if(d->data == ((Node*)node)->data){ 
+            list->_this->head->next = d->next; 
+            free(d); 
+            (list->_this->size)--; 
+            break; 
+        }else{ 
+            list->_this->head = list->_this->head->next; 
+        } 
+    } 
+    list->_this->head = t; 
+ }
+其他的实现代码可以参看下载部分，这里限于篇幅就不再意义列举出来。
+测试
+测试代码
+好了，前面做的一切工作都是为了保证我们的暴露给使用者的 API 可以尽量的简洁，优美，现在到测试的时候了：
+清单 4. 测试代码
+int main(int argc, char** argv) { 
+    List *list = (List*)ListConstruction();// 构造一个新的链表
+    
+ // 插入一些值做测试
+    list->insert("Apple"); 
+    list->insert("Borland"); 
+    list->insert("Cisco"); 
+    list->insert("Dell"); 
+    list->insert("Electrolux"); 
+    list->insert("FireFox"); 
+    list->insert("Google"); 
+    
+    list->print();// 打印整个列表
+            
+    printf("list size = %d\n",list->getSize()); 
+    
+    Node node; 
+    node.data = "Electrolux"; 
+    node.next = NULL;  
+    list->drop(&node);// 删除一个节点
+    
+    node.data = "Cisco"; 
+    node.next = NULL; 
+    list->drop(&node);// 删除另一个节点
+    
+    list->print();// 再次打印
+    printf("list size = %d\n",list->getSize()); 
+    list->clear();// 清空列表
+
+    return 0; 
+ }
+
+结束语
+C 语言所诞生的UNIX平台提倡这样一种设计哲学：尽量进行简单的设计，让使用者如同搭积木一样的将这些简单的工具连接成强大的，完整的应用。 应该说，C 比较好的继承了这一点，C 语言非常简洁，非常强大，而由于 C 语言诞生的比较早，当时的面向对象的思想还不成熟，所以出现了大量的过程式的 C 应用，从而给人们一种 C 语言是面向过程的语言的错觉，其实 C 只是提供了一些简单，强大而通用的能力，至于你想将其搭成什么样的积木，则全靠你自己了。
+==========================================================
+C和指针
+http://www.cnblogs.com/abruzzi/archive/2009/05/21/1486678.html
+前言
+指针是C的灵魂，正是指针使得C存在了这么多年，而且将长期存在下去。事实上，我自己不用C语言写程序已经有一年了，工作中接触到的只有java,python和javascript。最近用C完成了一下类似于OO中的封装(即"类")的概念，顺便把指针复习了下，感觉有必要记一下。
+
+本文中的例子有这样两个概念：任务(Task)，执行器(Executor)。任务有名称(taskName)，并且可以执行(execute)。 而执行器与具体任务所执行的内容无关，只是回调(callback)任务的执行方法，这样我们的执行器就可以做的比较通用。而任务接口只需要实现一个execute方法即可，这样我们的任务就可以是多种多样的，可以通过统一的接口set给执行器执行。这是面向对象中基本的思想，也是比较常用的抽象方式。下面我们具体看下例子。
+
+可以想象，main函数大概是这个样子：
+
+int main(int argc, char** argv) {
+
+    Task *t1 = TaskConstruction("Task1", run);//此处的run是一个函数指针
+    Executor *exe = ExecutorConstruction();
+    exe->setTask(t1);
+    exe->begin();
+    exe->cancel();
+
+    Task *t2 = TaskConstruction("Task2", run2);//此处的run2也是一个函数指针，用于构造一个Task.
+    exe->setTask(t2);
+    exe->begin();
+    exe->cancel();
+    
+    return (EXIT_SUCCESS);
+}
+运行结果为：
+task : [Task1] is ready to run
+[a = 1.200000, b = 2.300000]
+[(a + b) * (a - b) = -3.850000]
+cancel is invoked here
+task : [Task2] is ready to run
+another type of execute,just print out some information
+cancel is invoked here
+
+好了，下面详细看看实现：
+
+定义接口
+首先，定义Task和Executor两个实体的接口：
+
+Task接口，注意其中的_this字段，这个指针在后边有很重要的作用，用于hold整个Task的实例。然后是一个taskName的字符串，和一个函数指针，这个指针在初始化(构造)Task时传入。这个execute()函数比较有意思，它不在内部使用，而是让执行器回调执行的。
+
+#ifndef _ITASK_H
+#define    _ITASK_H
+
+typedef struct Task{
+    struct Task *_this;
+    char *taskName;
+    void (*execute)();
+}Task;
+
+void execute();
+#endif    /* _ITASK_H */
+
+执行器接口比Task接口复杂一些，其中包含_this指针，包含一个对Task的引用，然后是对外的接口begin(), cancel().对接口的使用者来说，他们只需要调用接口实例上的setTask(),将任务传递给执行器，然后在适当时期调用begin(),等待任务正常结束或者调用cancel()将其取消掉。
+
+#include "ITask.h"
+
+#ifndef _IEXECUTOR_H
+#define    _IEXECUTOR_H
+
+typedef struct Executor{
+    struct Executor *_this;
+    Task *task;
+    char *(*setTask)(Task* task);
+    void (*begin)();
+    void (*cancel)();
+}Executor;
+
+char *setTask(Task *task);
+void begin();
+void cancel();
+
+#endif /* _IEXECUTOR_H */
+
+实现接口
+ 
+#include <stdlib.h>
+#include "ITask.h"
+
+Task *task = NULL;
+
+void execute();
+
+/*
+ * The construction of Task object.
+ * name : the name of the task
+ * execute : execute method of the task
+ * 
+ */
+Task *TaskConstruction(char *name, void (*execute)()){
+    task = (Task*)malloc(sizeof(strlen(name))+sizeof(execute));
+    task->taskName = name;
+    task->execute = execute;
+    task->_this = task;
+    
+    return (Task*)task;//返回一个自身的指针，通过内部的_this指针，两者即可实现封装
+}
+
+/*
+ * Destruction of task, not used current time.
+ *
+ */
+void TaskDestruction(){
+    task->taskName = NULL;
+    task->execute = NULL;
+    task->_this = NULL;
+    task = NULL;
+}
+
+/*
+ * private method, should register to executor
+ *
+ */
+void execute(){
+    task->_this->execute();//调用_this上的execute()方法
+}
+
+执行器的实现一样，稍微复杂一点，构造的时候，将函数指针在内部设置好，当外部调用时动态的执行需要执行的函数，这句话可能有些绕口，这么看：在构造Executor的时候，executor->begin = begin; 这条语句是将下面void begin()的实现注册到结构体中，但是要执行什么还是不确切的，当setTask以后，回调函数的地址已经明确：(executor->_this->task = task;)，此时调用begin()即可正确的调用到注册的Task上。
+
+#include <stdlib.h>
+#include "IExecutor.h"
+
+Executor *executor = NULL;
+
+Executor *ExecutorConstruction(){
+    executor = (Executor*)malloc(sizeof(Executor));
+    executor->begin = begin;
+    executor->cancel = cancel;
+    executor->setTask = setTask;
+
+    executor->_this = executor;
+
+    return (Executor*)executor;
+}
+
+void ExecutorDestruction(){
+    executor->begin = NULL;
+    executor->cancel = NULL;
+    executor->setTask = NULL;
+    executor = NULL;
+}
+
+char *setTask(Task *task){
+    executor->_this->task = task;
+}
+
+void begin(){
+    printf("task : [%s] is ready to run\n",executor->_this->task->taskName);
+    executor->_this->task->execute();
+}
+
+void cancel(){//这个函数没有实现，只是做了一个占位符，以后如果有多线程，可以用来停止主动线程。
+    printf("cancel is invoked here\n");
+}
+
+其实，两个实现的代码都不算复杂，如果对C的指针理解的稍好，基本就没什么问题了。
+
+在C中使用OO
+ 为了试验，我们不妨设计两个不同的Task，一个Task是计算两个数的某四则混合运算，另一个仅仅是用来打印一点信息。然后我们可以看到，他们使用完全相同的接口来执行：
+
+ 
+#include <stdio.h>
+
+void run(){//计算(a+b)*(a-b)
+    float a, b, r;
+    a = 1.2;
+    b = 2.3;
+    r = 0.0;
+    printf("[a = %f, b = %f]\n", a, b);
+    printf("[(a + b) * (a - b) = %f]\n",((a+b)*(a-b)));
+}
+
+void run2(){//打印一句话，事实上，这些函数可以做任何事，比如I/O,网络，图片处理，音乐播放等等。
+    printf("another type of execute,");
+    printf("just print out some information\n");
+}
+
+然后，在Main中奖他们注册给Task，代码如下所示：
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "ITask.h"
+#include "IExecutor.h"
+
+extern void run();
+extern void run2();
+
+int main(int argc, char** argv) {
+//代码的风格上，应该可以看出和OO的风格及其类似。
+    Task *t1 = TaskConstruction("Task1", run);//new Task("Task 1", run);
+    Executor *exe = ExecutorConstruction();// new Executor();
+    exe->setTask(t1);
+    exe->begin();
+    exe->cancel();
+　
+    Task *t2 = TaskConstruction("Task2", run2);
+    exe->setTask(t2);
+    exe->begin();
+    exe->cancel();
+    
+    return (EXIT_SUCCESS);
+}
+
+程序的输出结果上文中已经可以看到了，这里就不贴了。
+当然，本文的主要目的不是想说什么“C也可以实现面向对象”之类的幼稚观点，只要谁没有严重的自虐倾向，相信不会有谁真的会用C来做OO的开发。只是想表达一下，指针在C中的重要性和指针的一点高级用法。其实现在的OO语言，基本还是以面向过程的表达式来表达面向对象而已。并没有什么神奇之处，OO主要是思想上的抽象，可以说是语言无关的(language independent)。
+
+
+
+
+C和指针(续)
+http://www.cnblogs.com/abruzzi/archive/2009/05/25/1489229.html
+前言
+
+上一篇《C和指针》可能对关于C和指针的有些内容没有说透，下来写了一个链表的实现，当然，也是用C的函数指针来模拟OO的结构来做的。链表结构本身比较复杂(关于指针的使用方面)，所以这个例子可能更清晰一些。之所以选List这个例子来说，是因为大家在学校里肯定接触过这个简单数据结构，从一个比较熟悉的例子入手可能比较容易理解一些。
+
+接口定义
+
+可以先看看接口的定义，与Java或者C#类似：
+
+/* 
+ * File:   IList.h
+ * Author: juntao.qiu
+ *
+ * Created on May 22, 2009, 2:51 PM
+ */ 
+
+#ifndef _ILIST_H
+#define    _ILIST_H 
+
+typedef struct node{
+    void *data;
+    struct node *next;
+}Node; //定义List中的元素类型，void * 相当于C中的泛型，可以支持任何结构的节点
+
+typedef struct list{
+    struct list *_this;
+    Node *head;
+    int size;
+    void (*insert)(void *node);
+    void (*drop)(void *node);
+    void (*clear)();
+    int (*getSize)();
+    void* (*get)(int index);
+    void (*print)();
+}List; //用head (Node)来维护链表的链!
+
+void insert(void *node);
+void drop(void *node);
+void clear();
+int getSize();
+void* get(int index);
+void print(); 
+
+#endif    /* _ILIST_H */ 
+
+接口中定义所有的公开的方法，正如所有的List结构一样，我们定义了
+
+
+void insert(node);//插入一个新的节点到List
+void drop(node);//删除一个指定的节点
+void clear();//清空List
+int getSize();//取到List的大小
+void* get(int index);//取到指定位置的元素
+void print();//打印整个List,用于调试
+ 
+
+这样几个方法。
+
+接口的实现
+
+然后看看实现，同上篇一样，引入一个标记链表自身的_this指针，通过对这个指针的引用来修改真实对象中的状态。
+
+ 
+#include <stdlib.h>
+#include "IList.h" 
+
+Node *node = NULL;
+List *list = NULL; 
+
+/* 函数声明块,作用已经在上边解释了*/
+void insert(void *node);
+void drop(void *node);
+void clear();
+int getSize();
+void print();
+void* get(int index); 
+
+/* 构造方法 */
+List *ListConstruction(){
+    list = (List*)malloc(sizeof(List));
+    node = (Node*)malloc(sizeof(Node));
+    list->head = node;
+    list->insert = insert;
+    list->drop = drop;
+    list->clear = clear;
+    list->size = 0;
+    list->getSize = getSize;
+    list->get = get;
+    list->print = print;
+    list->_this = list; 
+
+    return (List*)list;
+} 
+
+void ListDeconstruction(){
+} 
+
+//插入节点，size增加1
+void insert(void *node){
+    Node *current = (Node*)malloc(sizeof(Node));
+    current->data = node;
+    current->next = list->_this->head->next;
+    list->_this->head->next = current;
+    (list->_this->size)++;
+} 
+
+//删除一个节点，size减1
+void drop(void *node){
+    Node *t = list->_this->head;
+    Node *d = NULL;
+    int i = 0;
+    for(i;i < list->_this->size;i++){
+        d = list->_this->head->next;
+        if(d->data == ((Node*)node)->data){
+            list->_this->head->next = d->next;
+            free(d);
+            (list->_this->size)--;
+            break;
+        }else{
+            list->_this->head = list->_this->head->next;
+        }
+    }
+    list->_this->head = t;
+} 
+
+//取到指定index的节点
+void* get(int index){
+    Node *node = list->_this->head;
+    int i = 0; 
+
+    if(index > list->_this->size){
+        return NULL;
+    }else{
+        for(i;i < index;i++){
+            node = node->next;
+        }
+        if(node != (Node*)0){
+            return node->data;
+        }else{
+            return NULL;
+        }
+    }
+} 
+
+void clear(){
+    Node *node = NULL;
+    int i = 0;
+    for(i;i< list->_this->size;i++){
+        node = list->_this->head;
+        list->_this->head = list->_this->head->next;
+        free(node);
+    }
+    list->_this->size = 0;
+    list = NULL;
+} 
+
+int getSize(){
+    return list->_this->size;
+} 
+
+//调试用，像这种getSize(), print()这种调用，需要注意的是在调用过程中不能对原始指针做任何修改，
+//否则可能出现无法预测的错误。
+void print(){
+    Node *node = list->_this->head;
+    int i = 0;
+    for(i;i <= list->_this->size;i++){
+        if(node != (Node*)0){
+            printf("[%p] = {%s}\n",&node->data, node->data);
+            node = node->next;
+        }
+    }
+}
+
+
+测试
+
+/* 
+ * File:   Main.c
+ * Author: juntao.qiu
+ *
+ * Created on May 21, 2009, 4:05 PM
+ */ 
+
+#include <stdio.h>
+#include <stdlib.h> 
+
+s#include "IList.h" 
+
+int main(int argc, char** argv) {
+    List *list = (List*)ListConstruction();//构造一个新的list
+    list->insert("Apple");
+    list->insert("Borland");
+    list->insert("Cisco");
+    list->insert("Dell");
+    list->insert("Electrolux");
+    list->insert("FireFox");
+    list->insert("Google");//插入一些节点
+    list->print();//查看是否插入正确
+    printf("list size = %d\n",list->getSize());
+    
+　　//删除两个节点，并打印结果查看。
+    Node node;
+    node.data = "Electrolux";
+    node.next = NULL;  
+    list->drop(&node);
+    node.data = "Cisco";
+    node.next = NULL;
+    list->drop(&node);
+
+    list->print();
+    printf("list size = %d\n",list->getSize());
+    list->clear(); 
+
+    return 0;
+} 
+
+运行结果
+
+$./ooc
+[00489760] = {Google}
+[00489730] = {FireFox}
+[00489700] = {Electrolux}
+[004896D0] = {Dell}
+[004896A0] = {Cisco}
+[00489670] = {Borland}
+[00489640] = {Apple}
+list size = 7
+[00489760] = {Google}
+[00489730] = {FireFox}
+[004896D0] = {Dell}
+[00489670] = {Borland}
+[00489640] = {Apple}
+list size = 5
+
+
+可以看出，程序正如预期的那样运行(前一项为节点在内存中的地址，后一项为节点的值)，如果大家有兴趣，可以将上一篇《C和指针》s中的Executor装入一个List实现一个Executor的管理器，加入get方法，同时考虑多线程的状态，即可自己完成一个线程池的实现。
+
+ 
