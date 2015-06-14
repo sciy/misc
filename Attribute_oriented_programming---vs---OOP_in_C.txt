@@ -1,3 +1,9 @@
+由于C语言本身的限制（缺乏相应的机制、特性），实际上是不能用C很好地实现面向对象编程的；用C来做函数式也不可能。
+于是采取了一种折中的方案，即结构体充地包装数据（描述对象所需的参量、状态、临时变量等都放入结构体），而其相应的函数则采用纯函数，出口参数只对入口参数负责。使用一个叫参数池的东西，把这两者联系起来。在参数池中，所有与某结构体相关的函数，其所需的入口参量都放到参数池结构体变量中。每个充分包装数据的结构对应一个参数池结构体变量，这一个结构体变量将为所有相关函数共享。
+试图通过上面的方式，友好对系统/问题进行切割。参见下例。
+https://github.com/mogeiwang/Cai-Neuron/blob/master/Tao_Shelley-TimeStepping/c/multiNeuron/main.c
+
+===================================
 Attribute-oriented programming (AOP) is a program-level marking technique.
 Programmers can mark program elements (e.g. classes and methods) to indicate that, 
 they maintain application-specific or domain-specific semantics. 
