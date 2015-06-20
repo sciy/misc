@@ -80,13 +80,15 @@ LaTex:
 
 ###### Header 6
 
+use pandoc to convert .md to slides or normal article:
 
-pandoc mdGrammer.md -o mdGrammer.pdf
+    pandoc mdGrammer.md -o mdGrammer.pdf
 
-pandoc mdGrammer.md -o mdGrammer.pdf -t beamer
+    pandoc mdGrammer.md -o mdGrammer.pdf -t beamer
 
-pandoc mdGrammer.md -o mdGrammer.html
+    pandoc mdGrammer.md -o mdGrammer.html
 
-pandoc mdGrammer.md -o mdGrammer.html -t dzslides -s
+    pandoc mdGrammer.md -o mdGrammer.html -t dzslides -s
 
-pandoc -f markdown+lhs mdGrammer.md -o html+lhs slides.html -t dzslides -s -S --toc 
+    pandoc -f markdown+lhs mdGrammer.md -o slides.html -t dzslides -s -S --toc 
+    
