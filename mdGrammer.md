@@ -88,3 +88,5 @@ pandoc mdGrammer.md -o mdGrammer.pdf -t beamer
 pandoc mdGrammer.md -o mdGrammer.html
 
 pandoc mdGrammer.md -o mdGrammer.html -t dzslides -s
+
+pandoc -f markdown+lhs mdGrammer.md -o html+lhs slides.html -t dzslides -s -S --toc 
