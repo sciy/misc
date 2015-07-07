@@ -92,3 +92,4 @@ use pandoc to convert .md to slides or normal article:
 
     pandoc -f markdown+lhs mdGrammer.md -o slides.html -t dzslides -s -S --toc 
     
+    pandoc -f markdown+lhs slides.md -o slides.html -t dzslides -i -s -S --toc --mathjax
