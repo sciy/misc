@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
+	"time"
 )
 
 func check(e error) {
@@ -12,21 +13,27 @@ func check(e error) {
 	}
 }
 
-func DecodeYamlFile() map[interface{}]interface{} {
+func DecodeYamlFile(mm map[interface{}]interface{}) map[interface{}]interface{} {
 	data, err := ioutil.ReadFile("config.yaml")
-	check(err)
-	fmt.Println("YAML file opened.")
+	if err != nil {
+		return mm // check(err) not used...
+	}
+	fmt.Println("YAML file opened.") // update m everytime the file is updated
 	m := make(map[interface{}]interface{})
 	err = yaml.Unmarshal([]byte(data), &m)
 	return m
 }
 
 func main() {
-	m := DecodeYamlFile()
-	fmt.Println(m)
-	fmt.Println("Name: ", m["name"])
-	fmt.Println("Age : ", m["age"])
-	fmt.Println("Tax : ", m["tax"])
+	var m map[interface{}]interface{}
+	for i := 0; i < 100; i++ {
+		m = DecodeYamlFile(m)
+		fmt.Println(i, " :: ", m)
+		fmt.Println("Name: ", m["name"])
+		fmt.Println("Age : ", m["age"])
+		fmt.Println("Tax : ", m["tax"])
+		time.Sleep(300 * time.Millisecond)
+	}
 }
 
 // config.yaml:vvv
@@ -35,4 +42,4 @@ func main() {
 // married: true
 // age: 37
 // salary: 6800.0
-// tax: 58.0
+// tax: 5.8
