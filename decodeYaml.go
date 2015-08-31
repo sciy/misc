@@ -32,6 +32,9 @@ func main() {
 		fmt.Println("Name: ", m["name"])
 		fmt.Println("Age : ", m["age"])
 		fmt.Println("Tax : ", m["tax"])
+		t := m["salary"].(float64) // type assertion
+		fmt.Println("Salary", t)
+
 		time.Sleep(300 * time.Millisecond)
 	}
 }
