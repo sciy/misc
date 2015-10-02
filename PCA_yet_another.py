@@ -4,7 +4,7 @@ def PCA(data, dims_rescaled_data=3):
     # c also http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html
     import numpy as NP
     from scipy import linalg as LA
-    data=array(data)
+    if isinstance(data, list): data=array(data)
     data -= data.mean(axis=0)
     R = NP.cov(data, rowvar=False)
     evals, evecs = LA.eigh(R)
