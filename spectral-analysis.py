@@ -7,7 +7,6 @@ import numpy as np
 
 sampleTime = 0.4 # x seconds totally
 ncount = 2048.0 # x sample points in total
-nSampleNum = ncount / sampleTime # how many samples per second
 
 x = np.linspace(0,sampleTime,ncount)
 y = np.sin(2*pi*250*x) + 0.5*np.sin(2*pi*500*x) + 0.3*np.sin(2*pi*1000*x)
