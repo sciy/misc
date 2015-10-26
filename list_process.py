@@ -39,3 +39,10 @@ def equally_divide(lst, segment_len):
 # Out[-]: [[[1, 2, 3], [1, 2, 3]], [[4, 5, 6], [4, 5, 6]], [[7, 8, 9], [7, 8, 9]]]
 # In [-]: shape(a)
 # Out[-]: (3, 2, 3)
+
+# array <-> list
+# In [-]: a=[1,2,3]
+# In [-]: array(a)
+# Out[-]: array([1, 2, 3])
+# In [-]: list(array(a))
+# Out[-]: [1, 2, 3]
