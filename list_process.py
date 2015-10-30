@@ -29,6 +29,7 @@ def outter_flatten(lst):
 # Out[-]: [1, 2, 3, 1, 2, 3, 4, 5, 6, 4, 5, 6, 7, 8, 9, 7, 8, 9]
 
 def equally_divide(lst, segment_len):
+    if len(lst)%segment_len != 0: lst = lst[:len(lst)/segment_len*segment_len]
     return [lst[i:i+segment_len] for i in range(0, len(lst), segment_len)]
 
 # In [-]: a
