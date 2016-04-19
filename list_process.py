@@ -48,7 +48,6 @@ def equally_divide(lst, segment_len):
 # In [-]: list(array(a))
 # Out[-]: [1, 2, 3]
 
-
 def minN(a, n):
     if not isinstance(a, list) or not isinstance(a, ndarray): return False
     if n>len(a): n=len(a)
@@ -65,13 +64,12 @@ def maxN(a, n):
     b.sort(key = lambda x: x[0], reverse = True)
     return array([b[i][0] for i in range(n)]), array(map(int, [b[i][1] for i in range(n)]))
 
-
 #In [-]: a=[13,4,23,9,111]
-#In [-]: max_N(a, 3)
-#Out[-]: ([111, 23, 13], [4, 2, 0])
+#In [-]: maxN(a, 3)
+#Out[-]: (array([111, 23, 13]), array([4, 2, 0]))
 #
-#In [-]: min_N(a, 3)
-#Out[-]: ([4, 9, 13], [1, 3, 0])
+#In [-]: minN(a, 3)
+#Out[-]: (array([4, 9, 13]), array([1, 3, 0]))
 #
-#In [-]: min_N(a, 33)
-#Out[-]: ([4, 9, 13, 23, 111], [1, 3, 0, 2, 4])
+#In [-]: minN(a, 33)
+#Out[-]: (array([4, 9, 13, 23, 111]), array([1, 3, 0, 2, 4]))
