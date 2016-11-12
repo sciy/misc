@@ -15,14 +15,14 @@ git push -u origin master [alpha|beta|gamma]
 [gamma:third]
 
 
-
+git 删除错误提交的commit: 
+    git reset --hard <commit_id>  # 退回到commit_id处，id值可用git log查看
+    git push origin HEAD --force
 
 
 # -------------------------------------------
 # https://try.github.io/levels/1/challenges/1
 # -------------------------------------------
-
-
 
 Git基本命令学习 By Irving (zhouyongtao); at http://www.cnblogs.com/Irving/p/3711636.html
 
