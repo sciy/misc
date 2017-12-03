@@ -1,4 +1,4 @@
-# !/usr/bin/env python
+#!/usr/bin/env python2
 # -*- coding:utf-8 -*-
 
 # ==============================================
@@ -7,9 +7,9 @@
 # ·
 # · MogeiWang@GMail.com
 # ·
-# · Filename: mwAgent.py
+# · Filename: mwDoArch.py
 # ·
-# · COPYRIGHT 2014
+# · COPYRIGHT 2014-2017
 # ·
 # ==============================================
 
@@ -30,17 +30,17 @@ def random_range(x): a=[i for i in range(x)]; shuffle(a); return a
 # -------------------------------------------------------------------------------
 # - paraments ... ---------------------------------------------------------------#{{{
 RunTimes=10000
-_Agent_Number=100
+_worker_Number=100
 MsgNameLen=15
-_Agent_TimeUnit=1
-_Conds_TimeUnit=1
+_worker_TimeUnit=1
+_shopers_TimeUnit=1
 msgname0="---------------"
 msgname1="..............."
 msgname2="..............."
 msgname3="..............."
 msgname4="..............."
 msgname5="..............."
-_Agent_List={}
+_worker_List={}
 #...
 #}}}
 
@@ -78,14 +78,14 @@ class MSGProcess(Process):
 #}}}
 
 # -------------------------------------------------------------------------------
-class _Conds_(MSGProcess):
-    def __init__(self, name="_Conds_"): #{{{
+class _shopers_(MSGProcess):
+    def __init__(self, name="_shopers_"): #{{{
         MSGProcess.__init__(self, name)
         self.InMessage  = []
         self.OutMessage = [] #}}}
 
     def run(self):#{{{
-        while True:    # The main loop of the '_Conds_'
+        while True:    # The main loop of the '_shopers_'
             while self.num_MSG() > 0:
                 self.InMessage = self.get_MSG()
                 if self.InMessage[0][0:MsgNameLen]==msgname1:
@@ -96,24 +96,24 @@ class _Conds_(MSGProcess):
 
             #...
 
-            for self.i in random_range(_Agent_Number):
+            for self.i in random_range(_worker_Number):
                 self.OutMessage=[...]
-                _Agent_List[self.i].put_MSG(msgname3+"%015d"%randint(1,999999999999999),self.OutMessage)
+                _worker_List[self.i].put_MSG(msgname3+"%015d"%randint(1,999999999999999),self.OutMessage)
                 self.OutMessage=[...]
-                _Agent_List[self.i].put_MSG(msgname4+"%015d"%randint(1,999999999999999),self.OutMessage)
+                _worker_List[self.i].put_MSG(msgname4+"%015d"%randint(1,999999999999999),self.OutMessage)
                 self.OutMessage=[...]
-                _Agent_List[self.i].put_MSG(msgname5+"%015d"%randint(1,999999999999999),self.OutMessage)
-            yield hold, self, _Conds_TimeUnit # Sync with _Agent_. #}}}
+                _worker_List[self.i].put_MSG(msgname5+"%015d"%randint(1,999999999999999),self.OutMessage)
+            yield hold, self, _shopers_TimeUnit # Sync with _worker_. #}}}
 
 # -------------------------------------------------------------------------------
-class _Agent_(MSGProcess):
-    def __init__(self, name="_Agent_", myid=0): #{{{
+class _worker_(MSGProcess):
+    def __init__(self, name="_worker_", myid=0): #{{{
         MSGProcess.__init__(self, name)
         self.InMessage = []
         self.OutMessage = [] #}}}
 
     def run(self):#{{{
-        while True: # the main loop of each agent(_Agent_)...
+        while True: # the main loop of each worker(_worker_)...
             # the Delta function (state transition):
             # clear the accumulators here.
 
@@ -131,10 +131,10 @@ class _Agent_(MSGProcess):
 
             # the Omega function (output messages):
             self.OutMessage = [...]
-            if ...: AIOCond.put_MSG(msgname1+"%015d"%randint(1,999999999999999), self.OutMessage)
+            if ...: AIOshoper.put_MSG(msgname1+"%015d"%randint(1,999999999999999), self.OutMessage)
             self.OutMessage = [...]
-            if ...: AIOCond.put_MSG(msgname2+"%015d"%randint(1,999999999999999), self.OutMessage)
-            yield hold, self, _Agent_TimeUnit ### Wait a while to finish the main loop #}}}
+            if ...: AIOshoper.put_MSG(msgname2+"%015d"%randint(1,999999999999999), self.OutMessage)
+            yield hold, self, _worker_TimeUnit ### Wait a while to finish the main loop #}}}
 
 # ===============================================================================
 
@@ -143,11 +143,11 @@ for iii in range(XXX): # repeat the simulation for XXX times.
     startTime=time() # seconds since the 00:00:00 UTC on January 1
     print "Running the", iii, "th simulation----------------"
     initialize() # initialization for simulation (simpy)
-    AIOCond=_Conds_()
-    activate(AIOCond, AIOCond.run())
-    for i in random_range(_Agent_Number):
-        _Agent_Temp=_Agent_List[i]=_Agent_(name="_Agent_%10d"%i, myid=i)
-        activate(_Agent_Temp, _Agent_Temp.run())
+    AIOshoper=_shopers_()
+    activate(AIOshoper, AIOshoper.run())
+    for i in random_range(_worker_Number):
+        _worker_Temp=_worker_List[i]=_worker_(name="_worker_%10d"%i, myid=i)
+        activate(_worker_Temp, _worker_Temp.run())
     simulate(until=RunTimes)#}}}
     print "Ending the", iii, "th simulation----------------"
     print "Time used:", time()-startTime, "seconds"
