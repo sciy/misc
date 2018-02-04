@@ -4,7 +4,7 @@
 import glob as gb
 import cv2
 
-base = '/media/mw/Seagate Expansion Drive/1 夏天照片/'
+base = '/media/mw/Seagate_Drive/1/'
 dirlist = os.listdir(base)
 
 x,y = 4800,3600
