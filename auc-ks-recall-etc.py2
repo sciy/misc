@@ -1,0 +1,68 @@
+# -*- coding: utf-8 -*-
+# http://www.cnblogs.com/huadongw/p/6415447.html
+
+
+import pandas as pd
+from sklearn.grid_search import GridSearchCV
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.utils import shuffle
+import numpy as np
+from sklearn import metrics
+from sklearn.metrics import log_loss, recall_score, precision_score, accuracy_score,f1_score
+from sklearn.metrics import roc_curve, precision_recall_curve, roc_auc_score
+# from sklearn.model_selection import cross_val_score
+import lightgbm
+
+
+def ks_statistic(Y,Y_hat):
+    data = {"Y":Y,"Y_hat":Y_hat}
+    df = pd.DataFrame(data)
+    bins = np.array([-0.1,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0])
+    category = pd.cut(df["Y_hat"],bins=bins)
+    category = category.sort_values()
+    #max_index = len(np.unique(df["Y_hat"]))
+    Y = df.ix[category.index,:]['Y']
+    Y_hat = df.ix[category.index,:]['Y_hat']
+    df2 = pd.concat([Y,Y_hat],axis=1)
+    df3 = pd.pivot_table(df2,values = ['Y_hat'],index ='Y_hat',columns='Y',aggfunc=len,fill_value=0)
+    df4 = np.cumsum(df3)
+    df5 = df4/df4.iloc[:,1].max()
+    ks = max(abs(df5.iloc[:,0] - df5.iloc[:,1]))
+    return ks/len(bins)
+
+
+df = pd.read_csv('DC_ALL_20170217.csv', header=0)
+X = df[df.columns.drop(['user_id','overdue'])].fillna(-999)
+# X = df[['count','time_stamp','credit_limit','credit_card_use_rate','credit_count_x','bank_count','sex','occupation','education','marriage','hukou']]
+y = df['overdue']
+train = X.head(55596)
+test = X.tail(69495-55596)
+
+
+train_label = y.head(55596).convert_objects(convert_numeric=True)
+X_train, X_test, y_train, y_test = train_test_split(\
+     train.values,  train_label, test_size=0.2, random_state=42)
+
+max_depth = 5
+subsample=0.8
+learning_rate=0.01
+n_estimators=400
+random_state=3
+nthread=4
+is_unbalance=True
+objective ='binary'
+LGBM = lightgbm.LGBMClassifier(max_depth=max_depth, learning_rate=learning_rate,
+n_estimators=n_estimators, objective=objective,is_unbalance=is_unbalance, nthread=nthread,subsample=subsample)
+LGBM.fit(X_train, y_train)
+y_test_v = LGBM.predict(X_test)
+y_test_p = LGBM.predict_proba(X_test)[:, 1]
+
+
+print 'auc: ', roc_auc_score(y_test, y_test_p)
+print 'log_loss: ', log_loss(y_test, y_test_p)
+print 'precision: ', precision_score(y_test, y_test_v)
+print 'recall: ', recall_score(y_test, y_test_v)
+print 'accuracy: ', accuracy_score(y_test, y_test_v)
+print 'f1_score: ', f1_score(y_test, y_test_v)
+print 'ks_statistic: ', ks_statistic(y_test.values, y_test_v)
