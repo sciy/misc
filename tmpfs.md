@@ -1,6 +1,6 @@
 Before start, it would be better to use `free` command to check the RAM left in the system.
 
-Creat a tmpfs is rather simple, just create a folder to use as the mount point of the tmpfs, and mount it.
+Create a tmpfs is rather simple, just create a folder to use as the mount point of the tmpfs, and mount it.
 
        cd /mnt
        sudo mkdir tmpDisk

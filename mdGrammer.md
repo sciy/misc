@@ -8,12 +8,12 @@ equals space.
 More returns crate segments.
 
 Two extra spaces at the end of line __
-creat a new line.
+create a new line.
 
 ---
 
 #Codes
-Four spaces or a Tab at the begining indicate a code line.
+Four spaces or a Tab at the beginning indicate a code line.
 
 C++:
 
